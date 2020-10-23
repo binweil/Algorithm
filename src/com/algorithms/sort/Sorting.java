@@ -12,7 +12,8 @@ public class Sorting {
             arr[i] = random.nextInt(size);
         }
         long startTime = System.currentTimeMillis();
-        mergeSort(arr, new int[arr.length], 0, arr.length-1);
+        //mergeSort(arr, new int[arr.length], 0, arr.length-1);
+        shellSort(arr, arr.length/2);
         long duration = System.currentTimeMillis() - startTime;
         System.out.println("Arrays is: " + Arrays.toString(arr));
         System.out.println("Sorting duration: " + duration);
@@ -22,6 +23,7 @@ public class Sorting {
      * Time Complexity: O(N^2)
      * Space Complexity: O(1)
      *
+     * Stable
      * @param arr
      */
     private static void bubbleSort (int[] arr) {
@@ -40,6 +42,7 @@ public class Sorting {
      * Time Complexity: O(N^2)
      * Space Complexity: O(1)
      *
+     * Stable
      * @param arr
      */
     private static void insertSort (int[] arr) {
@@ -51,6 +54,30 @@ public class Sorting {
                 arr[j+1] = tmp;
                 j--;
             }
+        }
+    }
+
+    /**
+     * Insert sort is a special case in shell sort, where the gap is 1
+     * Best Time Complexity: O(N) where array is already sorted
+     * Average Time Complexity: O(N*logN)
+     * Worst Time Complexity: O(N^2) where array is revere ordered
+     * Space Complexity: O(1)
+     *
+     * Unstable
+     */
+    private static void shellSort(int[] arr, int gap) {
+        while (gap > 0) {
+            for (int i = gap; i < arr.length; i++) {
+                int j = i -gap;
+                while ((j >= 0) && (arr[j] > arr[j+gap])) {
+                    int tmp = arr[j];
+                    arr[j] = arr[j+gap];
+                    arr[j+gap] = tmp;
+                    j--;
+                }
+            }
+            gap /= 2;
         }
     }
 
