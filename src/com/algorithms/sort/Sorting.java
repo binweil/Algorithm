@@ -12,7 +12,7 @@ public class Sorting {
             arr[i] = random.nextInt(size);
         }
         long startTime = System.currentTimeMillis();
-        insertSort(arr);
+        quickSort(arr, 0, arr.length-1);
         long duration = System.currentTimeMillis() - startTime;
         System.out.println("Arrays is: " + Arrays.toString(arr));
         System.out.println("Sorting duration: " + duration);
@@ -48,5 +48,36 @@ public class Sorting {
                 j--;
             }
         }
+    }
+
+    /**
+     * O(N*logN)
+     * @param arr
+     * @param start
+     * @param end
+     */
+    private static void quickSort(int[] arr, int start, int end) {
+        if (start >= end) {
+            return;
+        }
+        int pivot = arr[(start + end) / 2];
+        int left = start, right = end;
+        while (left <= right) {
+            while ((left <= right) && (arr[left] < pivot)) {
+                left++;
+            }
+            while ((left <= right) && (arr[right] > pivot)) {
+                right--;
+            }
+            if (left <= right) {
+                int tmp = arr[left];
+                arr[left] = arr[right];
+                arr[right] = tmp;
+                left++;
+                right--;
+            }
+        }
+        quickSort(arr, start, right);
+        quickSort(arr, left, end);
     }
 }
