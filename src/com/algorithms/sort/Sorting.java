@@ -12,7 +12,7 @@ public class Sorting {
             arr[i] = random.nextInt(size);
         }
         long startTime = System.currentTimeMillis();
-        quickSort(arr, 0, arr.length-1);
+        mergeSort(arr, new int[arr.length], 0, arr.length-1);
         long duration = System.currentTimeMillis() - startTime;
         System.out.println("Arrays is: " + Arrays.toString(arr));
         System.out.println("Sorting duration: " + duration);
@@ -79,5 +79,38 @@ public class Sorting {
         }
         quickSort(arr, start, right);
         quickSort(arr, left, end);
+    }
+
+    private static void mergeSort(int[] arr, int[] tmp, int start, int end) {
+        if (start >= end) {
+            return;
+        }
+
+        //Divide to subarray
+        int mid = (start + end) / 2;
+        mergeSort(arr, tmp, start, mid);
+        mergeSort(arr, tmp, mid + 1, end);
+
+        //Merge
+        int head1 = start, head2 = mid+1;
+        int index = 0;
+        while ((head1 <= mid) && (head2 <= end)) {
+            if (arr[head1] <= arr[head2]) {
+                tmp[index++] = arr[head1++];
+            } else {
+                tmp[index++] = arr[head2++];
+            }
+        }
+        while (head1 <= mid) {
+            tmp[index++] = arr[head1++];
+        }
+        while (head2 <= end) {
+            tmp[index++] = arr[head2++];
+        }
+
+        index = 0;
+        while (start <= end) {
+            arr[start++] = tmp[index++];
+        }
     }
 }
