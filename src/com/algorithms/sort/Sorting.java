@@ -19,7 +19,9 @@ public class Sorting {
     }
 
     /**
-     * O(n2)
+     * Time Complexity: O(N^2)
+     * Space Complexity: O(1)
+     *
      * @param arr
      */
     private static void bubbleSort (int[] arr) {
@@ -35,7 +37,9 @@ public class Sorting {
     }
 
     /**
-     * O(N*logN)
+     * Time Complexity: O(N^2)
+     * Space Complexity: O(1)
+     *
      * @param arr
      */
     private static void insertSort (int[] arr) {
@@ -51,10 +55,13 @@ public class Sorting {
     }
 
     /**
-     * O(N*logN)
+     * Worst Time Complexity: O(N^2)
+     * Average/Best Time Complexity: O(N*logN)
+     * Space Complexity: O(N*logN)
+     *
      * @param arr
-     * @param start
-     * @param end
+     * @param start: 0
+     * @param end: arr.length - 1
      */
     private static void quickSort(int[] arr, int start, int end) {
         if (start >= end) {
@@ -81,6 +88,15 @@ public class Sorting {
         quickSort(arr, left, end);
     }
 
+    /**
+     * Time Complexity: O(N*logN)
+     * Space Complexity: O(N)
+     *
+     * @param arr
+     * @param tmp: new int[arr.length]
+     * @param start: 0
+     * @param end: arr.length - 1
+     */
     private static void mergeSort(int[] arr, int[] tmp, int start, int end) {
         if (start >= end) {
             return;
