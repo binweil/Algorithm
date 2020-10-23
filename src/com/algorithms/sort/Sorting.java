@@ -12,7 +12,7 @@ public class Sorting {
             arr[i] = random.nextInt(size);
         }
         long startTime = System.currentTimeMillis();
-        bubbleSort(arr);
+        insertSort(arr);
         long duration = System.currentTimeMillis() - startTime;
         System.out.println("Arrays is: " + Arrays.toString(arr));
         System.out.println("Sorting duration: " + duration);
@@ -30,6 +30,22 @@ public class Sorting {
                     arr[j] = arr[j+1];
                     arr[j+1] = tmp;
                 }
+            }
+        }
+    }
+
+    /**
+     * O(N*logN)
+     * @param arr
+     */
+    private static void insertSort (int[] arr) {
+        for (int i = 1; i < arr.length; i++) {
+            int j = i -1;
+            while ((j >= 0) && (arr[j] > arr[j+1])) {
+                int tmp = arr[j];
+                arr[j] = arr[j+1];
+                arr[j+1] = tmp;
+                j--;
             }
         }
     }
