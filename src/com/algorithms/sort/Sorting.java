@@ -4,16 +4,19 @@ import java.util.*;
 
 public class Sorting {
 
-    public static void main(String[] args) {
-        int size = 1000;
+    public static void main (String[] args) {
+        int size = 10;
         int[] arr = new int[size];
         Random random = new Random();
         for (int i = 0; i < size; i++) {
             arr[i] = random.nextInt(size);
         }
         long startTime = System.currentTimeMillis();
+        //bubbleSort(arr);
+        //insertSort(arr);
         //mergeSort(arr, new int[arr.length], 0, arr.length-1);
-        shellSort(arr, arr.length/2);
+        //shellSort(arr, arr.length/2);
+        heapSort(arr);
         long duration = System.currentTimeMillis() - startTime;
         System.out.println("Arrays is: " + Arrays.toString(arr));
         System.out.println("Sorting duration: " + duration);
@@ -30,9 +33,7 @@ public class Sorting {
         for (int i = 0; i < arr.length; i++) {
             for (int j = 0; j < arr.length - i - 1; j++) {
                 if (arr[j] > arr[j+1]) {
-                    int tmp = arr[j];
-                    arr[j] = arr[j+1];
-                    arr[j+1] = tmp;
+                    swap(arr, j, j+1);
                 }
             }
         }
@@ -49,9 +50,7 @@ public class Sorting {
         for (int i = 1; i < arr.length; i++) {
             int j = i -1;
             while ((j >= 0) && (arr[j] > arr[j+1])) {
-                int tmp = arr[j];
-                arr[j] = arr[j+1];
-                arr[j+1] = tmp;
+                swap(arr, j, j + 1);
                 j--;
             }
         }
@@ -66,14 +65,12 @@ public class Sorting {
      *
      * Unstable
      */
-    private static void shellSort(int[] arr, int gap) {
+    private static void shellSort (int[] arr, int gap) {
         while (gap > 0) {
             for (int i = gap; i < arr.length; i++) {
                 int j = i -gap;
                 while ((j >= 0) && (arr[j] > arr[j+gap])) {
-                    int tmp = arr[j];
-                    arr[j] = arr[j+gap];
-                    arr[j+gap] = tmp;
+                    swap(arr, i, j + gap);
                     j--;
                 }
             }
@@ -90,7 +87,7 @@ public class Sorting {
      * @param start: 0
      * @param end: arr.length - 1
      */
-    private static void quickSort(int[] arr, int start, int end) {
+    private static void quickSort (int[] arr, int start, int end) {
         if (start >= end) {
             return;
         }
@@ -104,9 +101,7 @@ public class Sorting {
                 right--;
             }
             if (left <= right) {
-                int tmp = arr[left];
-                arr[left] = arr[right];
-                arr[right] = tmp;
+                swap(arr, left, right);
                 left++;
                 right--;
             }
@@ -124,7 +119,7 @@ public class Sorting {
      * @param start: 0
      * @param end: arr.length - 1
      */
-    private static void mergeSort(int[] arr, int[] tmp, int start, int end) {
+    private static void mergeSort (int[] arr, int[] tmp, int start, int end) {
         if (start >= end) {
             return;
         }
@@ -155,5 +150,58 @@ public class Sorting {
         while (start <= end) {
             arr[start++] = tmp[index++];
         }
+    }
+
+    /**
+     * Heap Sort
+     * Steps:
+     * 1. Build a heap
+     * 2. Swap the first element and the last element of the heap, which moves largest element to the tail
+     * 3. Heapify [0, second last element]
+     *
+     * Time Complexity: O(N*logN)
+     * Space Complexity: O(1)
+     *
+     * @param arr
+     */
+    private static void heapSort (int[] arr) {
+        int n = arr.length;
+        for (int i = n / 2; i >= 0; i--) {
+            heapify(arr, i, arr.length);
+        }
+
+        for (int i = n - 1; i > 0; i--) {
+            swap(arr, i, 0);
+            heapify(arr, 0, i);
+        }
+    }
+
+    private static void heapify (int[] arr, int i, int n) {
+        if (i >= n) {
+            return;
+        }
+
+        int largest = i;
+        int leftChild = 2 * i + 1;
+        int rightChild = 2 * i + 2;
+
+        if (leftChild < n && arr[leftChild] > arr[largest]) {
+            largest = leftChild;
+        }
+
+        if (rightChild < n && arr[rightChild] > arr[largest]) {
+            largest = rightChild;
+        }
+
+        if (largest != i) {
+            swap(arr, largest, i);
+            heapify(arr, largest, n);
+        }
+    }
+
+    private static void swap (int[] arr, int i, int j) {
+        int tmp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = tmp;
     }
 }
