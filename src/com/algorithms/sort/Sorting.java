@@ -5,18 +5,20 @@ import java.util.*;
 public class Sorting {
 
     public static void main (String[] args) {
-        int size = 10;
+        int size = 1000;
         int[] arr = new int[size];
         Random random = new Random();
         for (int i = 0; i < size; i++) {
             arr[i] = random.nextInt(size);
         }
+        System.out.println(Arrays.toString(arr));
         long startTime = System.currentTimeMillis();
         //bubbleSort(arr);
         //insertSort(arr);
         //mergeSort(arr, new int[arr.length], 0, arr.length-1);
         //shellSort(arr, arr.length/2);
-        heapSort(arr);
+        //heapSort(arr);
+        bucketSort(arr, size);
         long duration = System.currentTimeMillis() - startTime;
         System.out.println("Arrays is: " + Arrays.toString(arr));
         System.out.println("Sorting duration: " + duration);
@@ -203,5 +205,31 @@ public class Sorting {
         int tmp = arr[i];
         arr[i] = arr[j];
         arr[j] = tmp;
+    }
+
+    /**
+     * Bucket Sort: sort the array based on value
+     * Steps:
+     * 1. Setup a array of buckets [0, max_value_of_input_array]
+     * 2. Insert each element into the buckets array based on value, ex: arr[2] = 6 => insert to bucket[6]
+     * 3. Iterate over bucket array, and output the array
+     *
+     * Time Complexity: O(M + N), where M is the max_value of the array, N is the length of the array
+     * Space Complexity: O(M)
+     * @param arr
+     * @param maxValue
+     */
+    public static void bucketSort(int[] arr, int maxValue) {
+        int[] buckets = new int[maxValue];
+        for (int value : arr) {
+            buckets[value]++;
+        }
+        int index = 0;
+        for (int i = 0; i < buckets.length; i++) {
+            while (buckets[i] > 0) {
+                arr[index++] = i;
+                buckets[i]--;
+            }
+        }
     }
 }
